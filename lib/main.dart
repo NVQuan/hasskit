@@ -27,20 +27,6 @@ void main() {
   );
 }
 
-//void main() {
-//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-//      .then((_) {
-//    runApp(
-//      MultiProvider(
-//        providers: [
-//          ChangeNotifierProvider(builder: (context) => GeneralData()),
-//        ],
-//        child: MyApp(),
-//      ),
-//    );
-//  });
-//}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
