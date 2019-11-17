@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:hasskit/helper/GeneralData.dart';
 import 'package:hasskit/helper/Logger.dart';
-import 'package:hasskit/helper/ThemeInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -44,53 +42,60 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
       selector: (_, generalData) =>
           generalData.cameraStreamUrl + showSpin.toString() + url,
       builder: (context, data, child) {
-        return RotatedBox(
-          quarterTurns:
-              Theme.of(context).platform == TargetPlatform.android ? 1 : 0,
-          child: Stack(
-            alignment: Alignment.center,
-            fit: StackFit.expand,
-            children: <Widget>[
-              gd.cameraStreamUrl != ""
-                  ? WebView(
-                      initialUrl: gd.cameraStreamUrl,
-                      javascriptMode: JavascriptMode.unrestricted,
-                      onWebViewCreated: (WebViewController webViewController) {
-                        _controller.complete(webViewController);
-                      },
-                      onPageFinished: (String urlVal) {
-                        showSpin = false;
-                        url = urlVal;
-                        log.d('Page finished loading: $url');
+        return Container(
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(28, 28, 28, 1),
+          ),
+          child: RotatedBox(
+            quarterTurns:
+            Theme
+                .of(context)
+                .platform == TargetPlatform.android ? 1 : 0,
+            child: Stack(
+              alignment: Alignment.center,
+              fit: StackFit.expand,
+              children: <Widget>[
+                gd.cameraStreamUrl != ""
+                    ? WebView(
+                  initialUrl: gd.cameraStreamUrl,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onWebViewCreated:
+                      (WebViewController webViewController) {
+                    _controller.complete(webViewController);
+                  },
+                  onPageFinished: (String urlVal) {
+                    showSpin = false;
+                    url = urlVal;
+                    log.d('Page finished loading: $url');
 //                        delayedHide();
-                      },
-                    )
-                  : Container(),
-              if (showSpin &&
-                  Theme.of(context).platform == TargetPlatform.android)
-                Container(
-                  decoration: BoxDecoration(
-                    color: ThemeInfo.colorBottomSheet,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SpinKitThreeBounce(
-                        size: 40,
-                        color: Theme.of(context)
-                            .textTheme
-                            .body1
-                            .color
-                            .withOpacity(0.5),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                          "Loading ${gd.entities[widget.entityId].getOverrideName}"),
-                    ],
-                  ),
+                  },
                 )
-              else
-                Container(),
+                    : Container(),
+                if (showSpin &&
+                    Theme
+                        .of(context)
+                        .platform == TargetPlatform.android)
+                  Container(
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SpinKitThreeBounce(
+                          size: 40,
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Loading ${gd.entities[widget.entityId]
+                              .getOverrideName}",
+                          style:
+                          TextStyle(color: Colors.white.withOpacity(0.5)),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container(),
 
 //               showSpin
 //                  ? Image(
@@ -105,41 +110,39 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
 //                    )
 //                  : Container(),
 
-              Theme.of(context).platform == TargetPlatform.iOS
-                  ? Positioned(
-                      bottom: 40,
-                      right: 40,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.cancel,
-                          color: Theme.of(context)
-                              .textTheme
-                              .body1
-                              .color
-                              .withOpacity(0.5),
-                          size: 40,
-                        ),
-                      ),
-                    )
-                  : Positioned(
-                      top: 40,
-                      right: 40,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.cancel,
-                          color: ThemeInfo.colorBottomSheetReverse
-                              .withOpacity(0.5),
-                          size: 40,
-                        ),
-                      ),
+                Theme
+                    .of(context)
+                    .platform == TargetPlatform.iOS
+                    ? Positioned(
+                  bottom: 40,
+                  right: 40,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.cancel,
+                      color: Colors.white.withOpacity(0.5),
+                      size: 40,
                     ),
-            ],
+                  ),
+                )
+                    : Positioned(
+                  top: 40,
+                  right: 40,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.cancel,
+                      color: Colors.white.withOpacity(0.5),
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

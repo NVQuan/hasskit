@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hasskit/helper/GeneralData.dart';
 import 'package:hasskit/helper/Logger.dart';
@@ -8,9 +9,10 @@ import 'package:hasskit/model/EntityOverride.dart';
 import 'package:hasskit/view/EntityControl/EntityControlClimate.dart';
 import 'package:hasskit/view/EntityControl/EntityControlGeneral.dart';
 import 'package:provider/provider.dart';
+
+import 'EntityControlFan.dart';
 import 'EntityControlLightDimmer.dart';
 import 'EntityControlToggle.dart';
-import 'EntityControlFan.dart';
 
 class EntityControlParent extends StatefulWidget {
   final String entityId;
@@ -286,7 +288,7 @@ class _EntityControlParentState extends State<EntityControlParent> {
                   },
                   child: Icon(
                     Icons.cancel,
-                    color: ThemeInfo.colorBottomSheetReverse.withOpacity(0.5),
+                    color: ThemeInfo.colorBottomSheetReverse,
                     size: 40,
                   ),
                 ),
