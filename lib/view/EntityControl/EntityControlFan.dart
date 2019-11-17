@@ -56,8 +56,7 @@ class _EntityControlFanState extends State<EntityControlFan> {
     }
     if (entity.isStateOn &&
         entity.speedLevel != null &&
-        entity.speedLevel != null &&
-        entity.speedLevel.indexOf(entity.speed) >= 0) {
+        entity.speedLevel.indexOf(entity.speedLevel) >= 0) {
       currentStep = entity.speedList.indexOf(entity.speedLevel);
       log.d(
           "entity.speedLevel ${entity.speedLevel} speedList ${entity.speedList} currentStep  $currentStep");

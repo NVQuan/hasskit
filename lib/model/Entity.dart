@@ -25,6 +25,7 @@ class Entity {
   double minTemp;
   double maxTemp;
   double targetTempStep;
+  double currentTemperature;
   double temperature;
   String fanMode;
   List<String> fanModes;
@@ -57,6 +58,7 @@ class Entity {
     this.minTemp,
     this.maxTemp,
     this.targetTempStep,
+    this.currentTemperature,
     this.temperature,
     this.fanMode,
     this.fanModes,
@@ -94,23 +96,26 @@ class Entity {
         //climate
         hvacModes: json['attributes']['hvac_modes'] != null
             ? List<String>.from(json['attributes']['hvac_modes'])
-            : null,
+            : [],
         minTemp: double.tryParse(json['attributes']['min_temp'].toString()),
         maxTemp: double.tryParse(json['attributes']['max_temp'].toString()),
         targetTempStep:
             double.tryParse(json['attributes']['target_temp_step'].toString()),
         temperature:
             double.tryParse(json['attributes']['temperature'].toString()),
+
+        currentTemperature: double.tryParse(
+            json['attributes']['current_temperature'].toString()),
         fanMode: json['attributes']['fan_mode'],
         fanModes: json['attributes']['fan_modes'] != null
             ? List<String>.from(json['attributes']['fan_modes'])
-            : null,
+            : [],
         deviceCode: json['attributes']['device_code'],
         manufacturer: json['attributes']['manufacturer'],
         //fan
         speedList: json['attributes']['speed_list'] != null
             ? List<String>.from(json['attributes']['speed_list'])
-            : null,
+            : [],
         oscillating: json['attributes']['oscillating'],
         speedLevel: json['attributes']['speed_level'],
         speed: json['attributes']['speed'].toString(),
@@ -121,7 +126,7 @@ class Entity {
         brightness: int.tryParse(json['attributes']['brightness'].toString()),
         rgbColor: json['attributes']['rgb_color'] != null
             ? List<int>.from(json['attributes']['rgb_color'])
-            : null,
+            : [],
         minMireds: int.tryParse(json['attributes']['min_mireds'].toString()),
         maxMireds: int.tryParse(json['attributes']['max_mireds'].toString()),
         colorTemp: int.tryParse(json['attributes']['color_temp'].toString()),
@@ -418,5 +423,11 @@ class Entity {
       if (speed != null && speed.length > 0 && speed != "null") return speed;
     }
     return state;
+  }
+
+  double get getTemperature {
+    if (temperature != null) return temperature;
+    if (currentTemperature != null) return currentTemperature;
+    return 0;
   }
 }

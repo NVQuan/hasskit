@@ -192,7 +192,7 @@ class RequireSlideToOpen extends StatelessWidget {
             Flushbar(
               title: required
                   ? "Require Slide to Open Disabled"
-                  : "Require Slide to Open Enable",
+                  : "Require Slide to Open Enabled",
               message: required
                   ? "${gd.textToDisplay(gd.entities[entityId].getOverrideName)} now can be opened with 1 touch"
                   : "Prevent accidentally open ${gd.textToDisplay(gd.entities[entityId].getOverrideName)}",

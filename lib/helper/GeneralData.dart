@@ -297,10 +297,10 @@ class GeneralData with ChangeNotifier {
       return;
     }
 
-//    if (newEntity.entityId.contains("fan.")) {
-//      log.d(
-//          "\nsocketSubscribeEvents fan. ${message['event']['data']['new_state']}");
-//    }
+    if (newEntity.entityId.contains("climate.")) {
+      log.d(
+          "\nsocketSubscribeEvents fan. ${message['event']['data']['new_state']}");
+    }
 
 //    _entities[newEntity.entityId] = newEntity;
 //    return;
@@ -317,6 +317,7 @@ class GeneralData with ChangeNotifier {
       oldEntity.minTemp = newEntity.minTemp;
       oldEntity.maxTemp = newEntity.maxTemp;
       oldEntity.targetTempStep = newEntity.targetTempStep;
+      oldEntity.currentTemperature = newEntity.currentTemperature;
       oldEntity.temperature = newEntity.temperature;
       oldEntity.fanMode = newEntity.fanMode;
       oldEntity.fanModes = newEntity.fanModes;

@@ -141,7 +141,7 @@ class _EntityIcon extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Text(
-                    "${entity.temperature.toInt()}",
+                    "${entity.getTemperature.toInt()}",
                     style: ThemeInfo.textNameButtonActive.copyWith(
                       color: ThemeInfo.colorBottomSheet,
                     ),

@@ -87,7 +87,7 @@ class EntityControlClimate extends StatelessWidget {
           ),
           min: entity.minTemp,
           max: entity.maxTemp,
-          initialValue: entity.temperature,
+          initialValue: entity.getTemperature,
 //        innerWidget: (double value) {
 //          print('innerWidget $value');
 //          return Center(child: Text('$value'));
