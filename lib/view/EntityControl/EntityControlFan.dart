@@ -44,14 +44,20 @@ class _EntityControlFanState extends State<EntityControlFan> {
     print(
         "entityId ${widget.entityId} division $division steps stepLength $stepLength");
 
-    if (entity.isStateOn && entity.speed != null) {
+    if (entity.isStateOn &&
+        entity.speed != null &&
+        entity.speedList != null &&
+        entity.speedList.indexOf(entity.speed) >= 0) {
       currentStep = entity.speedList.indexOf(entity.speed);
       log.d(
           "entity.speed ${entity.speed} speedList ${entity.speedList} currentStep  $currentStep");
       changingStep = currentStep;
       diffY = currentStep * stepLength;
     }
-    if (entity.isStateOn && entity.speedLevel != null) {
+    if (entity.isStateOn &&
+        entity.speedLevel != null &&
+        entity.speedLevel != null &&
+        entity.speedLevel.indexOf(entity.speed) >= 0) {
       currentStep = entity.speedList.indexOf(entity.speedLevel);
       log.d(
           "entity.speedLevel ${entity.speedLevel} speedList ${entity.speedList} currentStep  $currentStep");
@@ -145,7 +151,7 @@ class _EntityControlFanState extends State<EntityControlFan> {
                               SizedBox(height: 4),
                               Text(
                                 gd.textToDisplay(
-                                    "${gd.entities[widget.entityId].speedList[changingStep]}"),
+                                    "${gd.entities[widget.entityId].getStateDisplay}"),
                                 style: ThemeInfo.textStatusButtonActive,
                                 maxLines: 1,
                                 textScaleFactor:

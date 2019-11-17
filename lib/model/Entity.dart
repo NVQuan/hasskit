@@ -413,9 +413,9 @@ class Entity {
 
   String get getStateDisplay {
     if (isStateOn && entityId.contains("fan.")) {
-      if (speedLevel != null && speedLevel.length > 0) return speedLevel;
-      if (entityId.contains("fan.") && speed != null && speed.length > 0)
-        return speed;
+      if (speedLevel != null && speedLevel.length > 0 && speedLevel != "null")
+        return speedLevel;
+      if (speed != null && speed.length > 0 && speed != "null") return speed;
     }
     return state;
   }
