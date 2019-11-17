@@ -115,6 +115,7 @@ class ButtonSliderState extends State<ButtonSlider> {
             .contains("SUPPORT_RGB_COLOR")) {
           var entityRGB = gd.entities[widget.entityId].rgbColor;
           if (entityRGB == null ||
+              entityRGB.length < 3 ||
               entityRGB[0] > 250 && entityRGB[1] > 250 && entityRGB[2] > 250)
             entityRGB = [192, 192, 192];
           sliderColor = TinyColor.fromRGB(
