@@ -1,0 +1,13 @@
+HassKit is a Touch Friendly - Zero Config to help user instantly start using  Home Assistant.
+
+Home Assistant is a one of the best platform for Home Automation with powerful features, world widest range of devices support and only require very simple/cheap hardware (Hello \$25 Raspberry Pi).
+                      
+However, Home Assistant is not easy to setup and require a few months to master. HassKit aim to ease the learning steps and improve the quality of life for Home Assistant users by providing a stunning look and 10 seconds setup to start using the wonderful Home Automation platform.
+
+HassKit is free, open-source and under development. We need your help to improve the app feature in order to better serve you.
+
+Please find us on Discord and Facebook. Your contributions are welcome.
+
+https://discord.gg/cqYr52P
+
+https://www.facebook.com/HassKit-105749664194455/

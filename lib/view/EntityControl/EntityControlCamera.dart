@@ -76,7 +76,9 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                         .of(context)
                         .platform == TargetPlatform.android)
                   Container(
-                    decoration: BoxDecoration(),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(28, 28, 28, 1),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -96,20 +98,6 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                   )
                 else
                   Container(),
-
-//               showSpin
-//                  ? Image(
-//                image: gd.getCameraThumbnail(widget.entityId),
-//                fit: BoxFit.contain,
-//              )
-//                  : Container(),
-//              showSpin
-//                  ? SpinKitThreeBounce(
-//                      size: 40,
-//                      color: Colors.white54,
-//                    )
-//                  : Container(),
-
                 Theme
                     .of(context)
                     .platform == TargetPlatform.iOS
