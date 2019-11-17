@@ -191,11 +191,11 @@ class RequireSlideToOpen extends StatelessWidget {
             gd.requireSlideToOpenAddRemove(entityId);
             Flushbar(
               title: required
-                  ? "Disable Require Slide to Open ${gd.textToDisplay(gd.entities[entityId].getOverrideName)}"
-                  : "Enable Require Slide to Open ${gd.textToDisplay(gd.entities[entityId].getOverrideName)}",
+                  ? "Require Slide to Open Disabled"
+                  : "Require Slide to Open Enable",
               message: required
-                  ? "Thank for using HassKit..."
-                  : "Prevent accidentally open the secure doors...",
+                  ? "${gd.textToDisplay(gd.entities[entityId].getOverrideName)} now can be opened with 1 touch"
+                  : "Prevent accidentally open ${gd.textToDisplay(gd.entities[entityId].getOverrideName)}",
               duration: Duration(seconds: 3),
             )..show(context);
           },
@@ -246,7 +246,10 @@ class RequireSlideToOpen extends StatelessWidget {
                   ],
                 ),
                 child: Icon(
-                  required ? Icons.phonelink_lock : Icons.phonelink_erase,
+                  required
+                      ? MaterialDesignIcons.getIconDataFromIconName("mdi:lock")
+                      : MaterialDesignIcons.getIconDataFromIconName(
+                          "mdi:lock-open"),
                   color: required
                       ? ThemeInfo.colorIconActive
                       : ThemeInfo.colorIconInActive,

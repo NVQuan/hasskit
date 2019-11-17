@@ -45,7 +45,6 @@ https://discord.gg/cqYr52P
 https://www.facebook.com/groups/709634206223205
 
 ## How can I install the App?
-There's 2 main way to install HassKit:
 
 Download on Apple App Store
 https://apps.apple.com/us/app/hasskit/id1485362169

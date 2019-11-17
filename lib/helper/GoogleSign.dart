@@ -93,7 +93,7 @@ class _GoogleSignState extends State<GoogleSign> {
 //                    ),
                         ),
                   Text(
-                    "Keep your rooms layout and device custumization synchronized accross devices. HassKit won't upload your login data online...",
+                    "Keep your rooms layout and device customization synchronized accross devices. HassKit won't upload your login data online...",
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],
