@@ -5,12 +5,14 @@ An Elegant Home Assistant Control App
 <table width="100%">
 <tbody>
 <tr align="center">
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2000.54.43.png"></td>
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.28.48.png"></td>
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.10.png"></td>
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.27.png"></td>
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.48.png"></td>
-<td><img width="200" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.31.29.png"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2000.54.43.png"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.28.48.png"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.10.png"></td>
+</tr>
+<tr align="center">
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.27.png"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.29.48.png"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202019-11-13%20at%2001.31.29.png"></td>
 </tr>
 </tbody>
 </table>
