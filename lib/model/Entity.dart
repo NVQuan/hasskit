@@ -317,9 +317,10 @@ class Entity {
 
     if (isStateOn && normalState == "mdi:lock") return "mdi:lock-open";
     if (!isStateOn && normalState == "mdi:lock-open") return "mdi:lock";
-    if (isStateOn && normalState == "mdi:window-closed")
+    if (isStateOn && normalState == "mdi:window-open")
+      return "mdi:window-closed";
+    if (!isStateOn && normalState == "mdi:window-closed")
       return "mdi:window-open";
-    if (!isStateOn && normalState == "mdi:window-open") return "window-closed";
     if (isStateOn && normalState == "mdi:walk") return "mdi:run";
     if (!isStateOn && normalState == "mdi:run") return "mdi:walk";
     return normalState;

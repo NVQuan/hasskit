@@ -29,14 +29,14 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
-    switchLandScape();
+//    switchLandScape();
 //    delayedHide();
   }
 
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    switchPortrait();
+//    switchPortrait();
     super.dispose();
   }
 
@@ -50,83 +50,84 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
           decoration: BoxDecoration(
             color: Color.fromRGBO(28, 28, 28, 1),
           ),
-//          child: RotatedBox(
-//            quarterTurns:
-//                Theme.of(context).platform == TargetPlatform.android ? 0 : 0,
-          child: Stack(
-            alignment: Alignment.center,
-            fit: StackFit.expand,
-            children: <Widget>[
-              gd.cameraStreamUrl != ""
-                  ? WebView(
-                      initialUrl: gd.cameraStreamUrl,
-                      javascriptMode: JavascriptMode.unrestricted,
-                      onWebViewCreated: (WebViewController webViewController) {
-                        _controller.complete(webViewController);
-                      },
-                      onPageFinished: (String urlVal) {
-                        showSpin = false;
-                        url = urlVal;
-                        log.d('Page finished loading: $url');
+          child: RotatedBox(
+            quarterTurns:
+                Theme.of(context).platform == TargetPlatform.android ? 1 : 1,
+            child: Stack(
+              alignment: Alignment.center,
+              fit: StackFit.expand,
+              children: <Widget>[
+                gd.cameraStreamUrl != ""
+                    ? WebView(
+                        initialUrl: gd.cameraStreamUrl,
+                        javascriptMode: JavascriptMode.unrestricted,
+                        onWebViewCreated:
+                            (WebViewController webViewController) {
+                          _controller.complete(webViewController);
+                        },
+                        onPageFinished: (String urlVal) {
+                          showSpin = false;
+                          url = urlVal;
+                          log.d('Page finished loading: $url');
 //                        delayedHide();
-                      },
-                    )
-                  : Container(),
-              if (showSpin &&
-                  Theme.of(context).platform == TargetPlatform.android)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(28, 28, 28, 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SpinKitThreeBounce(
-                        size: 40,
-                        color: Colors.white.withOpacity(0.5),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Loading ${gd.entities[widget.entityId].getOverrideName}",
-                        style: TextStyle(color: Colors.white.withOpacity(0.5)),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Container(),
-              Theme.of(context).platform == TargetPlatform.iOS
-                  ? Positioned(
-                      bottom: 40,
-                      right: 40,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
                         },
-                        child: Icon(
-                          Icons.cancel,
-                          color: Colors.white.withOpacity(0.5),
-                          size: 40,
-                        ),
-                      ),
-                    )
-                  : Positioned(
-                      top: 40,
-                      right: 40,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.cancel,
-                          color: Colors.white.withOpacity(0.5),
-                          size: 40,
-                        ),
-                      ),
+                      )
+                    : Container(),
+                if (showSpin)
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(28, 28, 28, 1),
                     ),
-            ],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SpinKitThreeBounce(
+                          size: 40,
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Loading ${gd.entities[widget.entityId].getOverrideName}",
+                          style:
+                              TextStyle(color: Colors.white.withOpacity(0.5)),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container(),
+                Theme.of(context).platform == TargetPlatform.iOS
+                    ? Positioned(
+                        bottom: 40,
+                        right: 40,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.cancel,
+                            color: Colors.white.withOpacity(0.5),
+                            size: 40,
+                          ),
+                        ),
+                      )
+                    : Positioned(
+                        top: 40,
+                        right: 40,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.cancel,
+                            color: Colors.white.withOpacity(0.5),
+                            size: 40,
+                          ),
+                        ),
+                      ),
+              ],
+            ),
           ),
-//          ),
         );
       },
     );

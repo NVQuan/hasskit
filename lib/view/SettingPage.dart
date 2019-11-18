@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/validators.dart';
 import 'CustomScrollView/DeviceTypeHeader.dart';
+import 'HomeAssistantLogin.dart';
 import 'ServerSelectPanel.dart';
-import 'WebViewLoginPage.dart';
 
 class SettingPage extends StatefulWidget {
   @override
@@ -191,7 +191,7 @@ class _SettingPageState extends State<SettingPage> {
                                   onChanged: (val) {
                                     gd.useSSL = val;
                                   }),
-                              Text("Use SSL"),
+                              Text("Use https"),
                               Expanded(child: Container()),
                               RaisedButton(
                                 onPressed: showConnect
@@ -216,7 +216,19 @@ class _SettingPageState extends State<SettingPage> {
                                             isScrollControlled: true,
                                             useRootNavigator: true,
                                             builder: (context) =>
-                                                WebViewLoginPage());
+                                                HomeAssistantLogin(
+                                                  selectedUrl: gd
+                                                          .loginDataCurrent
+                                                          .getUrl +
+                                                      '/auth/authorize?client_id=' +
+                                                      gd.loginDataCurrent
+                                                          .getUrl +
+                                                      "/hasskit"
+                                                          '&redirect_uri=' +
+                                                      gd.loginDataCurrent
+                                                          .getUrl +
+                                                      "/hasskit",
+                                                ));
                                       }
                                     : null,
                                 child: Text("Connect"),

@@ -50,6 +50,7 @@ dependencies:
   #color stuff
   tinycolor: ^1.0.2
   flushbar: ^1.9.1
+  flutter_webview_plugin: ^0.3.9+1
 
 
 flutter_icons:
