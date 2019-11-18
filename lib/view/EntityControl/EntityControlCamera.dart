@@ -18,25 +18,21 @@ class EntityControlCamera extends StatefulWidget {
 }
 
 class _EntityControlCameraState extends State<EntityControlCamera> {
-  DeviceOrientation _currentOrientation;
-
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-
   bool showSpin = true;
+
   String url = "";
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
-//    switchLandScape();
-//    delayedHide();
   }
 
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-//    switchPortrait();
+
     super.dispose();
   }
 
@@ -73,7 +69,10 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                         },
                       )
                     : Container(),
-                if (showSpin)
+                if (showSpin &&
+                    Theme
+                        .of(context)
+                        .platform != TargetPlatform.iOS)
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(28, 28, 28, 1),
@@ -87,7 +86,8 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Loading ${gd.entities[widget.entityId].getOverrideName}",
+                          "Loading ${gd.entities[widget.entityId]
+                              .getOverrideName}...",
                           style:
                               TextStyle(color: Colors.white.withOpacity(0.5)),
                         ),
@@ -137,19 +137,5 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
     await Future.delayed(const Duration(milliseconds: 2000));
     showSpin = false;
     setState(() {});
-  }
-
-  void switchLandScape() {
-    if (_currentOrientation != DeviceOrientation.landscapeLeft) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
-      setState(() {});
-    }
-  }
-
-  void switchPortrait() {
-    if (_currentOrientation != DeviceOrientation.portraitUp) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-      setState(() {});
-    }
   }
 }
