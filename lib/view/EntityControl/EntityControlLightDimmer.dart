@@ -107,7 +107,9 @@ class ButtonSliderState extends State<ButtonSlider> {
         }
         var colorForeground = ThemeInfo.colorBottomSheetReverse;
         TinyColor sliderColor;
-        if (gd.entities[widget.entityId].getSupportedFeaturesLights
+        if (!gd.entities[widget.entityId].isStateOn) {
+          sliderColor = TinyColor.fromRGB(r: 128, g: 128, b: 128);
+        } else if (gd.entities[widget.entityId].getSupportedFeaturesLights
             .contains("SUPPORT_RGB_COLOR")) {
           var entityRGB = gd.entities[widget.entityId].rgbColor;
           if (entityRGB == null ||
