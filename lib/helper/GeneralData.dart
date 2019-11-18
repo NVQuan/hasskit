@@ -222,10 +222,9 @@ class GeneralData with ChangeNotifier {
         log.e('getStates entity.entityId');
         continue;
       }
-//      if (entity.supportedFeatures != null) {
-//        log.d(
-//            "${entity.entityId} supportedFeatures ${entity.supportedFeatures}");
-//      }
+      if (entity.entityId.contains("group")) {
+        log.d("${entity.entityId} group");
+      }
       _entities[entity.entityId] = entity;
     }
 

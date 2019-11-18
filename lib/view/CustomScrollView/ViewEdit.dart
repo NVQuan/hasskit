@@ -180,6 +180,15 @@ class _ViewEditState extends State<ViewEdit> {
           types: [EntityType.mediaPlayers],
         ),
         DeviceTypeHeaderEdit(
+          title: "Groups...",
+          icon: Icon(MaterialDesignIcons.getIconDataFromIconName("mdi:group")),
+        ),
+        _EditItems(
+          roomIndex: widget.roomIndex,
+          keyword: _controllerSearch.text.trim(),
+          types: [EntityType.group],
+        ),
+        DeviceTypeHeaderEdit(
           title: "Accessories...",
           icon: Icon(MaterialDesignIcons.getIconDataFromIconName("mdi:ballot")),
         ),

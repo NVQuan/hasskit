@@ -161,9 +161,11 @@ class Entity {
     }
     if (state == 'locked' || state == 'locking...') {
       this.state = 'unlocking...';
+      domain = "lock";
       service = 'unlock';
     } else if (state == 'unlocked' || state == 'unlocking...') {
       this.state = 'locking...';
+      domain = "lock";
       service = 'lock';
     }
     var outMsg = {
