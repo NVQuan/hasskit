@@ -76,27 +76,17 @@ class EntitySquare2Row extends StatelessWidget {
                   entityId: entityId,
                 ),
                 Expanded(
-                  child: FittedBox(
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-//                        color: gd.entities[entityId].isStateOn
-//                            ? ThemeInfo.colorIconActive
-//                            : ThemeInfo.colorIconInActive,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        "${gd.textToDisplay(gd.entities[entityId].getStateDisplay)}",
-                        style: gd.entities[entityId].isStateOn
-                            ? ThemeInfo.textStatusButtonActive
-                            : ThemeInfo.textStatusButtonInActive,
-                        maxLines: 1,
-                        textScaleFactor:
-                            (gd.textScaleFactor * 3 / gd.itemsPerRow) * 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "${gd.textToDisplay(gd.entities[entityId].getStateDisplay)}",
+                      style: gd.entities[entityId].isStateOn
+                          ? ThemeInfo.textStatusButtonActive
+                          : ThemeInfo.textStatusButtonInActive,
+                      maxLines: 3,
+                      textScaleFactor:
+                          (gd.textScaleFactor * 3 / gd.itemsPerRow) * 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
