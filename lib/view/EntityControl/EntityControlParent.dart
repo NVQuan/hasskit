@@ -71,7 +71,7 @@ class _EntityControlParentState extends State<EntityControlParent> {
           entityControl = EntityControlLightDimmer(entityId: widget.entityId);
         } else if (entity.entityType == EntityType.lightSwitches ||
             entity.entityType == EntityType.mediaPlayers ||
-            entity.entityId.contains("group.all_")) {
+            entity.entityId.contains("group.")) {
           entityControl = EntityControlToggle(entityId: widget.entityId);
         } else {
           entityControl = EntityControlGeneral(entityId: widget.entityId);
@@ -104,7 +104,8 @@ class _EntityControlParentState extends State<EntityControlParent> {
                                 width: double.infinity,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  gd.textToDisplay(entity.getOverrideName),
+                                  entity.entityId,
+//                                  gd.textToDisplay(entity.getOverrideName),
                                   style: Theme.of(context).textTheme.title,
                                   textScaleFactor: gd.textScaleFactor,
                                   maxLines: 1,
