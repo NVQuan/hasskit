@@ -1169,13 +1169,27 @@ class GeneralData with ChangeNotifier {
 
   String textToDisplay(String text) {
     text = text.replaceAll('_', ' ');
-    if (text.length > 1) {
-      return text[0].toUpperCase() + text.substring(1);
-    } else if (text.length > 0) {
-      return text[0].toUpperCase();
-    } else {
-      return '???';
+
+    var splits = text.split(" ");
+    var recVal = "";
+    for (int i = 0; i < splits.length; i++) {
+      var split = splits[i];
+      if (split.length > 1) {
+        recVal = recVal + split[0].toUpperCase() + split.substring(1) + " ";
+      } else if (split.length > 0) {
+        recVal = recVal + split[0].toUpperCase() + " ";
+      } else {
+        recVal = recVal + '???' + " ";
+      }
     }
+    return recVal;
+//    if (text.length > 1) {
+//      return text[0].toUpperCase() + text.substring(1);
+//    } else if (text.length > 0) {
+//      return text[0].toUpperCase();
+//    } else {
+//      return '???';
+//    }
   }
 
   Map<String, String> toggleStatusMap = {};
@@ -1186,9 +1200,12 @@ class GeneralData with ChangeNotifier {
     if (entity.entityType != EntityType.lightSwitches &&
         entity.entityType != EntityType.scriptAutomation &&
         entity.entityType != EntityType.climateFans &&
-        entity.entityType != EntityType.mediaPlayers) {
+        entity.entityType != EntityType.mediaPlayers &&
+        entity.entityType != EntityType.group) {
       return;
     }
+
+    log.w("toggleStatus ${entity.entityId}");
     delayGetStatesTimer(5);
     entity.toggleState();
     HapticFeedback.mediumImpact();

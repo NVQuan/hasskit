@@ -11,13 +11,13 @@ import 'package:provider/provider.dart';
 import 'package:tinycolor/tinycolor.dart';
 
 List<String> colorTemps = [
-  "4FC3F7", //Blue
-  "81D4FA", //Blue
-  "B3E5FC", //Blue
-  "E0E0E0", //Gray
-  "FFECB3", //Amber
-  "FFE082", //Amber
-  "FFD54F", //Amber
+  "64B5F6", //Blue
+  "90CAF9", //Blue
+  "BBDEFB", //Blue
+  "F5F5F5", //Gray
+  "FFF9C4", //Yellow
+  "FFF59D", //Yellow
+  "FFF176", //Yellow
 ];
 
 class EntityControlLightDimmer extends StatefulWidget {
@@ -307,23 +307,23 @@ class RgbColorSelector extends StatefulWidget {
 class _RgbColorSelectorState extends State<RgbColorSelector> {
   List<String> colors = [
     "E0E0E0", //Gray
-    "F44336", //Red
-    "E91E63", //Pink
-    "9C27B0", //Purple
-    "673AB7", //Deep purple
-    "3F51B5", //Indigo
-    "2196F3", //Blue
-    "03A9F4", //Light Blue
-    "00BCD4", //Cyan
-//    "009688", //Teal
-    "4CAF50", //Green
-    "8BC34A", //Light Green
-//    "CDDC39", //Lime
-    "FFEB3B", //Yellow
-    "FFC107", //Amber
-    "FF9800", //Orange
-//    "FF5722", //Deep Orange
-//    "795548", //Brown
+    "E57373", //Red
+    "F06292", //Pink
+    "BA68C8", //Purple
+    "9575CD", //Deep purple
+    "7986CB", //Indigo
+    "64B5F6", //Blue
+    "4FC3F7", //Light Blue
+    "4DD0E1", //Cyan
+//    "4DB6AC", //Teal
+    "81C784", //Green
+    "AED581", //Light Green
+//    "DCE775", //Lime
+    "FFF176", //Yellow
+    "FFD54F", //Amber
+    "FFB74D", //Orange
+//    "FF8A65", //Deep Orange
+//    "A1887F", //Brown
   ];
   @override
   Widget build(BuildContext context) {

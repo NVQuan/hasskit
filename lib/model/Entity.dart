@@ -10,6 +10,7 @@ enum EntityType {
   climateFans,
   cameras,
   mediaPlayers,
+  group,
   accessories,
   scriptAutomation,
 }
@@ -140,6 +141,7 @@ class Entity {
 
   toggleState() {
     var domain = entityId.split('.').first;
+    if (domain == "group") domain = "homeassistant";
     var service = '';
     if (state == 'on' ||
         this.state == 'turning on...' ||
@@ -183,6 +185,8 @@ class Entity {
       return EntityType.cameras;
     } else if (entityId.contains('media_player.')) {
       return EntityType.mediaPlayers;
+    } else if (entityId.contains('group.')) {
+      return EntityType.group;
     } else if (entityId.contains('script.') ||
         entityId.contains('automation.')) {
       return EntityType.scriptAutomation;
@@ -244,27 +248,52 @@ class Entity {
     if (deviceName.contains('automation')) {
       return 'mdi:home-automation';
     }
+
     if (deviceName.contains('cover')) {
       return isStateOn ? 'mdi:garage-open' : 'mdi:garage';
     }
 
-    if (deviceName.contains('door_window')) {
-      return isStateOn ? 'mdi:window-open' : 'mdi:window-closed';
+    if (deviceName.contains('device')) {
+      return 'mdi:tablet-cellphone';
     }
+    if (deviceName.contains('door_window')) {
+      return isStateOn ? 'mdi:window-closed' : 'mdi:window-open';
+    }
+
+    if (deviceName.contains('fan')) {
+      return isStateOn ? 'mdi:fan' : 'mdi:fan-off';
+    }
+
     if (deviceName.contains('illumination')) {
       return 'mdi:brightness-4';
     }
+
     if (deviceName.contains('humidity')) {
       return 'mdi:water-percent';
     }
+
     if (deviceName.contains('light')) {
-      return 'mdi:brightness-4';
+      return isStateOn ? 'mdi:lightbulb-on' : 'mdi:lightbulb';
     }
+
+    if (deviceName.contains('lock')) {
+      return isStateOn ? 'mdi:lock-open' : 'mdi:lock';
+    }
+
     if (deviceName.contains('motion')) {
       return isStateOn ? 'mdi:run' : 'mdi:walk';
     }
+
     if (deviceName.contains('pressure')) {
       return 'mdi:gauge';
+    }
+
+    if (deviceName.contains('remote')) {
+      return 'mdi:remote';
+    }
+
+    if (deviceName.contains('script')) {
+      return 'mdi:script-text';
     }
     if (deviceName.contains('smoke')) {
       return 'mdi:fire';
@@ -277,6 +306,9 @@ class Entity {
     }
     if (deviceName.contains('switch')) {
       return 'mdi:toggle-switch';
+    }
+    if (deviceName.contains('vacuum')) {
+      return 'mdi:robot-vacuum';
     }
     if (deviceName.contains('water_leak')) {
       return 'mdi:water-off';
@@ -332,7 +364,6 @@ class Entity {
     'climate': 'mdi:thermostat',
     'cover': 'mdi:garage',
     'fan': 'mdi:fan',
-    'group': 'mdi:group',
     'light': 'mdi:lightbulb',
     'lock': 'mdi:lock',
     'media_player': 'mdi:theater',

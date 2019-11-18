@@ -83,7 +83,8 @@ class SliverEntitiesNormal extends StatelessWidget {
                       log.d(
                           "${entities[index].entityId} SliverEntitiesNormal onTapCallback");
 
-                      if (entities[index].entityType ==
+                      if (entities[index].entityType == EntityType.group ||
+                          entities[index].entityType ==
                               EntityType.accessories ||
                           entities[index].entityType == EntityType.cameras ||
                           !entities[index].isStateOn &&
