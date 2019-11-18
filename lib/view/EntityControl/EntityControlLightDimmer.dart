@@ -14,7 +14,7 @@ List<String> colorTemps = [
   "4FC3F7", //Blue
   "81D4FA", //Blue
   "B3E5FC", //Blue
-  "BDBDBD", //Gray
+  "E0E0E0", //Gray
   "FFECB3", //Amber
   "FFE082", //Amber
   "FFD54F", //Amber
@@ -80,17 +80,12 @@ class ButtonSliderState extends State<ButtonSlider> {
   Offset buttonPos;
   Size buttonSize;
   double buttonValue;
+  double buttonValueMin = 50.0;
   double buttonValueOnTapDown = 0;
   String raisedButtonLabel = "";
   //creating Key for red panel
   GlobalKey buttonKey = GlobalKey();
   DateTime draggingTime = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +99,10 @@ class ButtonSliderState extends State<ButtonSlider> {
         if (draggingTime.millisecondsSinceEpoch <
             DateTime.now().millisecondsSinceEpoch) {
           if (!gd.entities[widget.entityId].isStateOn) {
-            buttonValue = 0;
+            buttonValue = buttonValueMin;
           } else {
-            buttonValue = gd.entities[widget.entityId].brightness.toDouble();
+            buttonValue = buttonValueMin +
+                gd.entities[widget.entityId].brightness.toDouble();
           }
         }
         var colorForeground = ThemeInfo.colorBottomSheetReverse;
@@ -117,7 +113,7 @@ class ButtonSliderState extends State<ButtonSlider> {
           if (entityRGB == null ||
               entityRGB.length < 3 ||
               entityRGB[0] > 250 && entityRGB[1] > 250 && entityRGB[2] > 250)
-            entityRGB = [192, 192, 192];
+            entityRGB = [224, 224, 224];
           sliderColor = TinyColor.fromRGB(
               r: entityRGB[0], g: entityRGB[1], b: entityRGB[2]);
         } else if (gd.entities[widget.entityId].getSupportedFeaturesLights
@@ -190,63 +186,37 @@ class ButtonSliderState extends State<ButtonSlider> {
                         child: Container(
                           width: buttonWidth,
                           height: buttonValue,
+                          alignment: Alignment.topCenter,
                           decoration: BoxDecoration(
                             color: sliderColor.color.withOpacity(1),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black54,
                                 blurRadius:
-                                    2.0, // has the effect of softening the shadow
+                                    1.0, // has the effect of softening the shadow
                                 spreadRadius:
-                                    2.0, // has the effect of extending the shadow
+                                    1.0, // has the effect of extending the shadow
                                 offset: Offset(
                                   0.0, // horizontal, move right 10
                                   0.0, // vertical, move down 10
                                 ),
                               ),
                             ],
+                          ),
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Icon(
+                              MaterialDesignIcons.getIconDataFromIconName(
+                                  gd.entities[widget.entityId].getDefaultIcon),
+                              size: 50,
+                              color: ThemeInfo.colorBottomSheetReverse,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: buttonHeight - 75,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(2.0),
-                          decoration: new BoxDecoration(
-                            color: ThemeInfo.colorBottomSheetReverse,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black54,
-                                blurRadius:
-                                    0.5, // has the effect of softening the shadow
-                                spreadRadius:
-                                    0.5, // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0, // horizontal, move right 10
-                                  0.0, // vertical, move down 10
-                                ),
-                              ),
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: sliderColor.color.withOpacity(1),
-                            radius: 25,
-                            child: Icon(
-                              MaterialDesignIcons.getIconDataFromIconName(
-                                  gd.entities[widget.entityId].getDefaultIcon),
-                              size: 40,
-                              color: ThemeInfo.colorBottomSheetReverse,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
 //              Text("${gd.entities[widget.entityId].rgbColor}"),
@@ -255,10 +225,6 @@ class ButtonSliderState extends State<ButtonSlider> {
         );
       },
     );
-  }
-
-  _afterLayout(_) {
-    _getSizes();
   }
 
   _onVerticalDragStart(BuildContext context, DragStartDetails details) {
@@ -281,7 +247,7 @@ class ButtonSliderState extends State<ButtonSlider> {
         draggingTime = DateTime.now().add(Duration(seconds: 1));
         log.d("_onVerticalDragEnd");
         var outMsg;
-        if (buttonValue.toInt() <= buttonHeight / 20) {
+        if (buttonValue.toInt() <= buttonValueMin + buttonHeight / 50) {
           outMsg = {
             "id": gd.socketId,
             "type": "call_service",
@@ -299,7 +265,10 @@ class ButtonSliderState extends State<ButtonSlider> {
             "service": "turn_on",
             "service_data": {
               "entity_id": entity.entityId,
-              "brightness": buttonValue.toInt()
+//              "brightness": buttonValue.toInt()
+              "brightness": gd
+                  .mapNumber(buttonValue, buttonValueMin, buttonHeight, 0, 255)
+                  .toInt()
             },
           };
         }
@@ -320,15 +289,8 @@ class ButtonSliderState extends State<ButtonSlider> {
 //      log.d(
 //          "_onVerticalDragUpdate currentPosX ${currentPosX.toStringAsFixed(0)} currentPosY ${currentPosY.toStringAsFixed(0)}");
       buttonValue = buttonValueOnTapDown + (startPosY - currentPosY);
-      buttonValue = buttonValue.clamp(0.0, buttonHeight);
+      buttonValue = buttonValue.clamp(buttonValueMin, buttonHeight);
     });
-  }
-
-  _getSizes() {
-    final RenderBox renderBoxRed = buttonKey.currentContext.findRenderObject();
-    buttonSize = renderBoxRed.size;
-    buttonPos = renderBoxRed.localToGlobal(Offset.zero);
-    raisedButtonLabel = "Size $buttonSize Pos $buttonPos";
   }
 }
 
@@ -342,7 +304,7 @@ class RgbColorSelector extends StatefulWidget {
 
 class _RgbColorSelectorState extends State<RgbColorSelector> {
   List<String> colors = [
-    "9E9E9E", //Gray
+    "E0E0E0", //Gray
     "F44336", //Red
     "E91E63", //Pink
     "9C27B0", //Purple
