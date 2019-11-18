@@ -169,21 +169,6 @@ class ButtonSliderState extends State<ButtonSlider> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      width: buttonWidth,
-                      height: buttonHeight,
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        width: buttonWidth,
-                        height: buttonValue,
-                        decoration: BoxDecoration(
-                          color: sliderColor.color.withOpacity(1),
-                        ),
-                      ),
-                    ),
-                  ),
                   Container(
                     key: buttonKey,
                     width: buttonWidth,
@@ -191,6 +176,38 @@ class ButtonSliderState extends State<ButtonSlider> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(width: 4, color: colorForeground),
+                    ),
+                  ),
+                  Positioned(
+                    top: 4,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: buttonWidth - 8,
+                        height: buttonHeight - 8,
+                        color: Colors.grey,
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: buttonWidth,
+                          height: buttonValue,
+                          decoration: BoxDecoration(
+                            color: sliderColor.color.withOpacity(1),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black54,
+                                blurRadius:
+                                    1.0, // has the effect of softening the shadow
+                                spreadRadius:
+                                    1.0, // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0, // horizontal, move right 10
+                                  -1.0, // vertical, move down 10
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Positioned(
