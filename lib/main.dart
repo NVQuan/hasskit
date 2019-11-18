@@ -17,6 +17,7 @@ import 'helper/Logger.dart';
 import 'helper/MaterialDesignIcons.dart';
 
 void main() {
+//  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MultiProvider(
       providers: [
@@ -33,7 +34,6 @@ class MyApp extends StatelessWidget {
     gd = Provider.of<GeneralData>(context, listen: false);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
     ]);
     return Selector<GeneralData, ThemeData>(
       selector: (_, generalData) => generalData.currentTheme,

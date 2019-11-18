@@ -1,332 +1,297 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(MaterialApp(home: WebViewExample()));
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-const String kNavigationExamplePage = '''
-<!DOCTYPE html><html>
-<head><title>Navigation Delegate Example</title></head>
-<body>
-<p>
-The navigation delegate is set to block navigation to the youtube website.
-</p>
-<ul>
-<ul><a href="https://www.youtube.com/">https://www.youtube.com/</a></ul>
-<ul><a href="https://www.google.com/">https://www.google.com/</a></ul>
-</ul>
-</body>
-</html>
-''';
+const kAndroidUserAgent =
+    'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36';
 
-class WebViewExample extends StatefulWidget {
+String selectedUrl = 'https://flutter.io';
+
+// ignore: prefer_collection_literals
+final Set<JavascriptChannel> jsChannels = [
+  JavascriptChannel(
+      name: 'Print',
+      onMessageReceived: (JavascriptMessage message) {
+        print(message.message);
+      }),
+].toSet();
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  final flutterWebViewPlugin = FlutterWebviewPlugin();
+
   @override
-  _WebViewExampleState createState() => _WebViewExampleState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter WebView Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      routes: {
+        '/': (_) => const MyHomePage(title: 'Flutter WebView Demo'),
+        '/widget': (_) {
+          return WebviewScaffold(
+            url: selectedUrl,
+            javascriptChannels: jsChannels,
+            appBar: AppBar(
+              title: const Text('Widget WebView'),
+            ),
+            withZoom: true,
+            withLocalStorage: true,
+            hidden: true,
+            initialChild: Container(
+              color: Colors.redAccent,
+              child: const Center(
+                child: Text('Waiting.....'),
+              ),
+            ),
+            bottomNavigationBar: BottomAppBar(
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      flutterWebViewPlugin.goBack();
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    onPressed: () {
+                      flutterWebViewPlugin.goForward();
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.autorenew),
+                    onPressed: () {
+                      flutterWebViewPlugin.reload();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      },
+    );
+  }
 }
 
-class _WebViewExampleState extends State<WebViewExample> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // Instance of WebView plugin
+  final flutterWebViewPlugin = FlutterWebviewPlugin();
+
+  // On destroy stream
+  StreamSubscription _onDestroy;
+
+  // On urlChanged stream
+  StreamSubscription<String> _onUrlChanged;
+
+  // On urlChanged stream
+  StreamSubscription<WebViewStateChanged> _onStateChanged;
+
+  StreamSubscription<WebViewHttpError> _onHttpError;
+
+  StreamSubscription<double> _onProgressChanged;
+
+  StreamSubscription<double> _onScrollYChanged;
+
+  StreamSubscription<double> _onScrollXChanged;
+
+  final _urlCtrl = TextEditingController(text: selectedUrl);
+
+  final _codeCtrl = TextEditingController(text: 'window.navigator.userAgent');
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _history = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    flutterWebViewPlugin.close();
+
+    _urlCtrl.addListener(() {
+      selectedUrl = _urlCtrl.text;
+    });
+
+    // Add a listener to on destroy WebView, so you can make came actions.
+    _onDestroy = flutterWebViewPlugin.onDestroy.listen((_) {
+      if (mounted) {
+        // Actions like show a info toast.
+        _scaffoldKey.currentState.showSnackBar(
+            const SnackBar(content: const Text('Webview Destroyed')));
+      }
+    });
+
+    // Add a listener to on url changed
+    _onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) {
+      if (mounted) {
+        setState(() {
+          _history.add('onUrlChanged: $url');
+        });
+      }
+    });
+
+    _onProgressChanged =
+        flutterWebViewPlugin.onProgressChanged.listen((double progress) {
+      if (mounted) {
+        setState(() {
+          _history.add('onProgressChanged: $progress');
+        });
+      }
+    });
+
+    _onScrollYChanged =
+        flutterWebViewPlugin.onScrollYChanged.listen((double y) {
+      if (mounted) {
+        setState(() {
+          _history.add('Scroll in Y Direction: $y');
+        });
+      }
+    });
+
+    _onScrollXChanged =
+        flutterWebViewPlugin.onScrollXChanged.listen((double x) {
+      if (mounted) {
+        setState(() {
+          _history.add('Scroll in X Direction: $x');
+        });
+      }
+    });
+
+    _onStateChanged =
+        flutterWebViewPlugin.onStateChanged.listen((WebViewStateChanged state) {
+      if (mounted) {
+        setState(() {
+          _history.add('onStateChanged: ${state.type} ${state.url}');
+        });
+      }
+    });
+
+    _onHttpError =
+        flutterWebViewPlugin.onHttpError.listen((WebViewHttpError error) {
+      if (mounted) {
+        setState(() {
+          _history.add('onHttpError: ${error.code} ${error.url}');
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Every listener should be canceled, the same should be done with this stream.
+    _onDestroy.cancel();
+    _onUrlChanged.cancel();
+    _onStateChanged.cancel();
+    _onHttpError.cancel();
+    _onProgressChanged.cancel();
+    _onScrollXChanged.cancel();
+    _onScrollYChanged.cancel();
+
+    flutterWebViewPlugin.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Flutter WebView example'),
-        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
-        actions: <Widget>[
-          NavigationControls(_controller.future),
-          SampleMenu(_controller.future),
-        ],
+        title: const Text('Plugin example app'),
       ),
-      // We're using a Builder here so we have a context that is below the Scaffold
-      // to allow calling Scaffold.of(context) so we can show a snackbar.
-      body: Builder(builder: (BuildContext context) {
-        return WebView(
-          initialUrl: 'https://flutter.dev',
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
-          // ignore: prefer_collection_literals
-          javascriptChannels: <JavascriptChannel>[
-            _toasterJavascriptChannel(context),
-          ].toSet(),
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              print('blocking navigation to $request}');
-              return NavigationDecision.prevent;
-            }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-          },
-        );
-      }),
-      floatingActionButton: favoriteButton(),
-    );
-  }
-
-  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: 'Toaster',
-        onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        });
-  }
-
-  Widget favoriteButton() {
-    return FutureBuilder<WebViewController>(
-        future: _controller.future,
-        builder: (BuildContext context,
-            AsyncSnapshot<WebViewController> controller) {
-          if (controller.hasData) {
-            return FloatingActionButton(
-              onPressed: () async {
-                final String url = await controller.data.currentUrl();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Favorited $url')),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24.0),
+              child: TextField(controller: _urlCtrl),
+            ),
+            RaisedButton(
+              onPressed: () {
+                flutterWebViewPlugin.launch(
+                  selectedUrl,
+                  rect: Rect.fromLTWH(
+                      0.0, 0.0, MediaQuery.of(context).size.width, 300.0),
+                  userAgent: kAndroidUserAgent,
+                  invalidUrlRegex:
+                      r'^(https).+(twitter)', // prevent redirecting to twitter when user click on its icon in flutter website
                 );
               },
-              child: const Icon(Icons.favorite),
-            );
-          }
-          return Container();
-        });
-  }
-}
-
-enum MenuOptions {
-  showUserAgent,
-  listCookies,
-  clearCookies,
-  addToCache,
-  listCache,
-  clearCache,
-  navigationDelegate,
-}
-
-class SampleMenu extends StatelessWidget {
-  SampleMenu(this.controller);
-
-  final Future<WebViewController> controller;
-  final CookieManager cookieManager = CookieManager();
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: controller,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> controller) {
-        return PopupMenuButton<MenuOptions>(
-          onSelected: (MenuOptions value) {
-            switch (value) {
-              case MenuOptions.showUserAgent:
-                _onShowUserAgent(controller.data, context);
-                break;
-              case MenuOptions.listCookies:
-                _onListCookies(controller.data, context);
-                break;
-              case MenuOptions.clearCookies:
-                _onClearCookies(context);
-                break;
-              case MenuOptions.addToCache:
-                _onAddToCache(controller.data, context);
-                break;
-              case MenuOptions.listCache:
-                _onListCache(controller.data, context);
-                break;
-              case MenuOptions.clearCache:
-                _onClearCache(controller.data, context);
-                break;
-              case MenuOptions.navigationDelegate:
-                _onNavigationDelegateExample(controller.data, context);
-                break;
-            }
-          },
-          itemBuilder: (BuildContext context) => <PopupMenuItem<MenuOptions>>[
-            PopupMenuItem<MenuOptions>(
-              value: MenuOptions.showUserAgent,
-              child: const Text('Show user agent'),
-              enabled: controller.hasData,
+              child: const Text('Open Webview (rect)'),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.listCookies,
-              child: Text('List cookies'),
+            RaisedButton(
+              onPressed: () {
+                flutterWebViewPlugin.launch(selectedUrl, hidden: true);
+              },
+              child: const Text('Open "hidden" Webview'),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.clearCookies,
-              child: Text('Clear cookies'),
+            RaisedButton(
+              onPressed: () {
+                flutterWebViewPlugin.launch(selectedUrl);
+              },
+              child: const Text('Open Fullscreen Webview'),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.addToCache,
-              child: Text('Add to cache'),
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/widget');
+              },
+              child: const Text('Open widget webview'),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.listCache,
-              child: Text('List cache'),
+            Container(
+              padding: const EdgeInsets.all(24.0),
+              child: TextField(controller: _codeCtrl),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.clearCache,
-              child: Text('Clear cache'),
+            RaisedButton(
+              onPressed: () {
+                final future =
+                    flutterWebViewPlugin.evalJavascript(_codeCtrl.text);
+                future.then((String result) {
+                  setState(() {
+                    _history.add('eval: $result');
+                  });
+                });
+              },
+              child: const Text('Eval some javascript'),
             ),
-            const PopupMenuItem<MenuOptions>(
-              value: MenuOptions.navigationDelegate,
-              child: Text('Navigation Delegate example'),
+            RaisedButton(
+              onPressed: () {
+                setState(() {
+                  _history.clear();
+                });
+                flutterWebViewPlugin.close();
+              },
+              child: const Text('Close'),
             ),
+            RaisedButton(
+              onPressed: () {
+                flutterWebViewPlugin.getCookies().then((m) {
+                  setState(() {
+                    _history.add('cookies: $m');
+                  });
+                });
+              },
+              child: const Text('Cookies'),
+            ),
+            Text(_history.join('\n'))
           ],
-        );
-      },
-    );
-  }
-
-  void _onShowUserAgent(
-      WebViewController controller, BuildContext context) async {
-    // Send a message with the user agent string to the Toaster JavaScript channel we registered
-    // with the WebView.
-    controller.evaluateJavascript(
-        'Toaster.postMessage("User Agent: " + navigator.userAgent);');
-  }
-
-  void _onListCookies(
-      WebViewController controller, BuildContext context) async {
-    final String cookies =
-        await controller.evaluateJavascript('document.cookie');
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const Text('Cookies:'),
-          _getCookieList(cookies),
-        ],
+        ),
       ),
-    ));
-  }
-
-  void _onAddToCache(WebViewController controller, BuildContext context) async {
-    await controller.evaluateJavascript(
-        'caches.open("test_caches_entry"); localStorage["test_localStorage"] = "dummy_entry";');
-    Scaffold.of(context).showSnackBar(const SnackBar(
-      content: Text('Added a test entry to cache.'),
-    ));
-  }
-
-  void _onListCache(WebViewController controller, BuildContext context) async {
-    await controller.evaluateJavascript('caches.keys()'
-        '.then((cacheKeys) => JSON.stringify({"cacheKeys" : cacheKeys, "localStorage" : localStorage}))'
-        '.then((caches) => Toaster.postMessage(caches))');
-  }
-
-  void _onClearCache(WebViewController controller, BuildContext context) async {
-    await controller.clearCache();
-    Scaffold.of(context).showSnackBar(const SnackBar(
-      content: Text("Cache cleared."),
-    ));
-  }
-
-  void _onClearCookies(BuildContext context) async {
-    final bool hadCookies = await cookieManager.clearCookies();
-    String message = 'There were cookies. Now, they are gone!';
-    if (!hadCookies) {
-      message = 'There are no cookies.';
-    }
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
-  }
-
-  void _onNavigationDelegateExample(
-      WebViewController controller, BuildContext context) async {
-    final String contentBase64 =
-        base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
-    controller.loadUrl('data:text/html;base64,$contentBase64');
-  }
-
-  Widget _getCookieList(String cookies) {
-    if (cookies == null || cookies == '""') {
-      return Container();
-    }
-    final List<String> cookieList = cookies.split(';');
-    final Iterable<Text> cookieWidgets =
-        cookieList.map((String cookie) => Text(cookie));
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: cookieWidgets.toList(),
-    );
-  }
-}
-
-class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture)
-      : assert(_webViewControllerFuture != null);
-
-  final Future<WebViewController> _webViewControllerFuture;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: _webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
-        final bool webViewReady =
-            snapshot.connectionState == ConnectionState.done;
-        final WebViewController controller = snapshot.data;
-        return Row(
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: !webViewReady
-                  ? null
-                  : () async {
-                      if (await controller.canGoBack()) {
-                        controller.goBack();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(content: Text("No back history item")),
-                        );
-                        return;
-                      }
-                    },
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: !webViewReady
-                  ? null
-                  : () async {
-                      if (await controller.canGoForward()) {
-                        controller.goForward();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("No forward history item")),
-                        );
-                        return;
-                      }
-                    },
-            ),
-            IconButton(
-              icon: const Icon(Icons.replay),
-              onPressed: !webViewReady
-                  ? null
-                  : () {
-                      controller.reload();
-                    },
-            ),
-          ],
-        );
-      },
     );
   }
 }

@@ -50,6 +50,8 @@ class SliverEntitiesNormal extends StatelessWidget {
                         isScrollControlled: true,
                         useRootNavigator: true,
                         builder: (BuildContext context) {
+//                          return EntityControlCamera(
+//                              entityId: entities[index].entityId);
                           return EntityControlCamera(
                               entityId: entities[index].entityId);
                         },

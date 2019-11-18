@@ -52,7 +52,7 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
           ),
           child: RotatedBox(
             quarterTurns:
-                Theme.of(context).platform == TargetPlatform.android ? 1 : 1,
+                Theme.of(context).platform == TargetPlatform.android ? 1 : 0,
             child: Stack(
               alignment: Alignment.center,
               fit: StackFit.expand,

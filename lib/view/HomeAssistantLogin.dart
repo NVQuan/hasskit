@@ -9,15 +9,6 @@ import 'package:hasskit/helper/ThemeInfo.dart';
 const kAndroidUserAgent =
     'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36';
 
-// ignore: prefer_collection_literals
-final Set<JavascriptChannel> jsChannels = [
-  JavascriptChannel(
-      name: 'Print',
-      onMessageReceived: (JavascriptMessage message) {
-        print(message.message);
-      }),
-].toSet();
-
 class HomeAssistantLogin extends StatelessWidget {
   HomeAssistantLogin({Key key, this.selectedUrl}) : super(key: key);
 
@@ -41,15 +32,14 @@ class HomeAssistantLogin extends StatelessWidget {
         '/widget': (_) {
           return WebviewScaffold(
             url: selectedUrl,
-            javascriptChannels: jsChannels,
-            appBar: AppBar(
-              title: const Text('HassKit Login'),
-            ),
             withZoom: true,
             withLocalStorage: true,
             hidden: true,
             initialChild: Column(
               children: <Widget>[
+                Expanded(
+                  child: Container(),
+                ),
                 SizedBox(height: 25),
                 SpinKitThreeBounce(
                   size: 40,
@@ -147,12 +137,12 @@ class _HomeAssistantLoginWebViewState extends State<HomeAssistantLoginWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: const Text('HassKit Login'),
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Expanded(
+            child: Container(),
+          ),
           Container(
             padding: EdgeInsets.all(32),
             child: Column(

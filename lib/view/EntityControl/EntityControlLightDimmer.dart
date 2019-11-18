@@ -185,7 +185,7 @@ class ButtonSliderState extends State<ButtonSlider> {
                       child: Container(
                         width: buttonWidth - 8,
                         height: buttonHeight - 8,
-                        color: Colors.grey,
+                        color: ThemeInfo.colorIconInActive,
                         alignment: Alignment.bottomCenter,
                         child: Container(
                           width: buttonWidth,
@@ -196,12 +196,12 @@ class ButtonSliderState extends State<ButtonSlider> {
                               BoxShadow(
                                 color: Colors.black54,
                                 blurRadius:
-                                    1.0, // has the effect of softening the shadow
+                                    2.0, // has the effect of softening the shadow
                                 spreadRadius:
-                                    1.0, // has the effect of extending the shadow
+                                    2.0, // has the effect of extending the shadow
                                 offset: Offset(
                                   0.0, // horizontal, move right 10
-                                  -1.0, // vertical, move down 10
+                                  0.0, // vertical, move down 10
                                 ),
                               ),
                             ],
@@ -219,6 +219,19 @@ class ButtonSliderState extends State<ButtonSlider> {
                           decoration: new BoxDecoration(
                             color: ThemeInfo.colorBottomSheetReverse,
                             shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black54,
+                                blurRadius:
+                                    0.5, // has the effect of softening the shadow
+                                spreadRadius:
+                                    0.5, // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0, // horizontal, move right 10
+                                  0.0, // vertical, move down 10
+                                ),
+                              ),
+                            ],
                           ),
                           child: CircleAvatar(
                             backgroundColor: sliderColor.color.withOpacity(1),
