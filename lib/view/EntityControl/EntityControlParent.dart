@@ -104,8 +104,8 @@ class _EntityControlParentState extends State<EntityControlParent> {
                                 width: double.infinity,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  entity.entityId,
-//                                  gd.textToDisplay(entity.getOverrideName),
+//                                  entity.entityId,
+                                  gd.textToDisplay(entity.getOverrideName),
                                   style: Theme.of(context).textTheme.title,
                                   textScaleFactor: gd.textScaleFactor,
                                   maxLines: 1,
