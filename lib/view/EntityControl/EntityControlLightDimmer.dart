@@ -211,7 +211,7 @@ class ButtonSliderState extends State<ButtonSlider> {
                             child: Icon(
                               MaterialDesignIcons.getIconDataFromIconName(
                                   gd.entities[widget.entityId].getDefaultIcon),
-                              size: 50,
+                              size: 45,
                               color: ThemeInfo.colorBottomSheetReverse,
                             ),
                           ),
