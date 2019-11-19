@@ -70,9 +70,7 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                       )
                     : Container(),
                 if (showSpin &&
-                    Theme
-                        .of(context)
-                        .platform != TargetPlatform.iOS)
+                    Theme.of(context).platform != TargetPlatform.iOS)
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(28, 28, 28, 1),
@@ -86,8 +84,7 @@ class _EntityControlCameraState extends State<EntityControlCamera> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Loading ${gd.entities[widget.entityId]
-                              .getOverrideName}...",
+                          "Loading ${gd.entities[widget.entityId].getOverrideName}",
                           style:
                               TextStyle(color: Colors.white.withOpacity(0.5)),
                         ),

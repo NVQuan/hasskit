@@ -181,7 +181,7 @@ class _ViewEditState extends State<ViewEdit> {
         ),
         DeviceTypeHeaderEdit(
           title: "Groups...",
-          icon: Icon(MaterialDesignIcons.getIconDataFromIconName("mdi:group")),
+          icon: Icon(MaterialDesignIcons.getIconDataFromIconName("mdi:blur")),
         ),
         _EditItems(
           roomIndex: widget.roomIndex,
@@ -231,7 +231,7 @@ class __EditItemsState extends State<_EditItems> {
         .where((e) =>
             widget.types.contains(e.entityType) &&
             (widget.keyword.length < 1 ||
-                e.friendlyName
+                e.getOverrideName
                     .toLowerCase()
                     .contains(widget.keyword.toLowerCase()) ||
                 e.entityId
@@ -304,8 +304,8 @@ class __EditItemsState extends State<_EditItems> {
                         ? 1
                         : 0.5,
                     child: Text(
-                      "${entities[index].getOverrideName}",
-                      style: Theme.of(context).textTheme.title,
+                      "${gd.textToDisplay(entities[index].getOverrideName)}",
+                      style: Theme.of(context).textTheme.subhead,
                       overflow: TextOverflow.ellipsis,
                       textScaleFactor: gd.textScaleFactor,
                       maxLines: 1,

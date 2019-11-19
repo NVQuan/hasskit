@@ -222,9 +222,9 @@ class GeneralData with ChangeNotifier {
         log.e('getStates entity.entityId');
         continue;
       }
-      if (entity.entityId.contains("group")) {
-        log.d("${entity.entityId} group");
-      }
+//      if (entity.entityId.contains("group")) {
+//        log.d("${entity.entityId} group");
+//      }
       _entities[entity.entityId] = entity;
     }
 
@@ -296,10 +296,10 @@ class GeneralData with ChangeNotifier {
       return;
     }
 
-    if (newEntity.entityId.contains("climate.")) {
-      log.d(
-          "\nsocketSubscribeEvents fan. ${message['event']['data']['new_state']}");
-    }
+//    if (newEntity.entityId.contains("climate.")) {
+//      log.d(
+//          "\nsocketSubscribeEvents fan. ${message['event']['data']['new_state']}");
+//    }
 
 //    _entities[newEntity.entityId] = newEntity;
 //    return;
@@ -1168,6 +1168,7 @@ class GeneralData with ChangeNotifier {
 
   String textToDisplay(String text) {
     text = text.replaceAll('_', ' ');
+    text = text.replaceAll('  ', ' ');
 
     var splits = text.split(" ");
     var recVal = "";
@@ -1581,6 +1582,9 @@ class GeneralData with ChangeNotifier {
     "mdi:battery-80",
     "mdi:bell",
     "mdi:blinds",
+    "mdi:blur",
+    "mdi:blur-linear",
+    "mdi:blur-off",
     "mdi:blur-radial",
     "mdi:brightness-5",
     "mdi:brightness-7",
