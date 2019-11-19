@@ -12,7 +12,7 @@ An Elegant Home Assistant Control App
 <tr align="center">
 <td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/climate.gif"></td>
 <td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/fan.gif"></td>
-<td><img width="400" src="https://https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/garage.gif"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/garage.gif"></td>
 </tr>
 </tbody>
 </table>
