@@ -14,6 +14,11 @@ An Elegant Home Assistant Control App
 <td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/fan.gif"></td>
 <td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/garage.gif"></td>
 </tr>
+<tr align="center">
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/camera.gif"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/light.gif"></td>
+<td><img width="400" src="https://github.com/tuanha2000vn/hasskit/blob/master/graphic%20template/Promo/lock.gif"></td>
+</tr>
 </tbody>
 </table>
 <br><br>
